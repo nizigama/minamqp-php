@@ -1,0 +1,19 @@
+{
+    "name": "nizigama/minamqp-php",
+    "type": "library",
+    "require": {
+        "php-amqplib/php-amqplib": "^3.1"
+    },
+    "license": "MIT License",
+    "autoload": {
+        "psr-4": {
+            "MinamqpPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nizigama jean davy",
+            "email": "jedavy.n@gmail.com"
+        }
+    ]
+}
