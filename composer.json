@@ -20,5 +20,9 @@
             "email": "jedavy.n@gmail.com",
             "role": "Original Maintainer"
         }
-    ]
+    ],
+    "require-dev": {
+        "nunomaduro/phpinsights": "^2.1",
+        "phpunit/phpunit": "^9.5"
+    }
 }
