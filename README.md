@@ -11,3 +11,6 @@ Ensure you have composer installed, then run the following command:
 
 
 # TODOs:
+- [ ]: Add tests
+- [ ]: Create Examples under usage section
+- [ ]: Clean todos
