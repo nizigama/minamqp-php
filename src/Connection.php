@@ -14,8 +14,8 @@ class Connection{
     private int $port;
     private string $user;
     private string $password;
-    private string $defaultExchange;
-    private string $defaultQueue;
+    public string $defaultExchange;
+    public string $defaultQueue;
     private string $vhost;
     public AMQPChannel $channel;
 
