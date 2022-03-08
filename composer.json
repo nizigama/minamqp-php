@@ -8,7 +8,7 @@
         "php": "^7.4||^8.0",
         "php-amqplib/php-amqplib": "^3.1"
     },
-    "license": "MIT License",
+    "license": "Apache License",
     "autoload": {
         "psr-4": {
             "MinamqpPhp\\": "src/"
