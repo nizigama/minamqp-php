@@ -8,11 +8,11 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class Consumer{
 
-    private static Connection $connection;
+    private Connection $connection;
 
-    public static function setConnection(Connection $connection)
+    public function __construct(Connection $connection)
     {
-        self::$connection = $connection;
+        $this->connection = $connection;
     }
 
     /** 
@@ -21,19 +21,19 @@ class Consumer{
      * This is a blocking function which means that it will never quit because it keeps waiting for an incoming message from the server, 
      * keep this in mind before calling it!
      */
-    public static function read(callable $callback, bool $resendToQueue = false, string $queueName = ""){
+    public function read(callable $callback, bool $resendToQueue = false, string $queueName = ""){
 
-        $usedQueueName = $queueName === "" ? self::$connection->defaultQueue : $queueName;
+        $usedQueueName = $queueName === "" ? $this->connection->defaultQueue : $queueName;
 
         $localCallback = function (AMQPMessage $message) use ($callback, $resendToQueue){
             $callback($message->getBody());
             $message->nack($resendToQueue);
         };
 
-        self::$connection->channel->basic_consume($usedQueueName, '', false, false, false, false, $localCallback);
+        $this->connection->channel->basic_consume($usedQueueName, '', false, false, false, false, $localCallback);
 
-        while (self::$connection->channel->is_open()) {
-            self::$connection->channel->wait();
+        while ($this->connection->channel->is_open()) {
+            $this->connection->channel->wait();
         }
     }
 }

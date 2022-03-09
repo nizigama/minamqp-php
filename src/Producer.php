@@ -10,11 +10,11 @@ use PhpAmqpLib\Message\AMQPMessage;
 class Producer
 {
 
-    private static Connection $connection;
+    private Connection $connection;
 
-    public static function setConnection(Connection $connection)
+    public function __construct(Connection $connection)
     {
-        self::$connection = $connection;
+        $this->connection = $connection;
     }
 
     /** 
@@ -24,16 +24,16 @@ class Producer
      * @throws PublishFailed
      * 
      */
-    public static function publish(string $message, string $exchange = "", string $routingKey = ""): bool
+    public function publish(string $message, string $exchange = "", string $routingKey = ""): bool
     {
         try {
             $msg = new AMQPMessage($message);
 
-            $usedExchange = $exchange === "" ? self::$connection->defaultExchange : $exchange;
+            $usedExchange = $exchange === "" ? $this->connection->defaultExchange : $exchange;
 
-            $usedRoutingKey = $routingKey === "" ? self::$connection->defaultQueue : $routingKey;
+            $usedRoutingKey = $routingKey === "" ? $this->connection->defaultQueue : $routingKey;
 
-            self::$connection->channel->basic_publish($msg, $usedExchange, $usedRoutingKey);
+            $this->connection->channel->basic_publish($msg, $usedExchange, $usedRoutingKey);
             return true;
         } catch (\Exception $exception) {
             throw new PublishFailed("Failed to publish the message", $exception);
