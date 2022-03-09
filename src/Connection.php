@@ -8,7 +8,7 @@ use MinamqpPhp\Exceptions\ConnectionFailed;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-class Connection{
+final class Connection{
 
     private string $host;
     private int $port;
@@ -31,11 +31,9 @@ class Connection{
     }
 
     /** 
-     * 
      * Attempts to connect to the AMQP server
      * 
-     * @throws ConnectionFailed 
-     * 
+     * @throws ConnectionFailed
      */
     public function connect(): void
     {

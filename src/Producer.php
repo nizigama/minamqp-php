@@ -7,7 +7,7 @@ namespace MinamqpPhp;
 use MinamqpPhp\Exceptions\PublishFailed;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class Producer
+final class Producer
 {
 
     private Connection $connection;
@@ -18,11 +18,11 @@ class Producer
     }
 
     /** 
-     * Sends a message to the AMQP server, 
+     * Sends a message to the AMQP server,
      * returns true when the message is sent or throws an exception when it has failed
-     * 
+     *
      * @throws PublishFailed
-     * 
+     *
      */
     public function publish(string $message, string $exchange = "", string $routingKey = ""): bool
     {
