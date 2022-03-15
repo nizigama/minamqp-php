@@ -24,17 +24,20 @@ final class Producer
      * @throws PublishFailed
      *
      */
-    public function publish(string $message, string $exchange = "", string $routingKey = ""): bool
+    public function publish(string $message, string $exchange = "", string $queue = "", string $routingKey = ""): void
     {
         try {
             $msg = new AMQPMessage($message);
 
             $usedExchange = $exchange === "" ? $this->connection->defaultExchange : $exchange;
+            
+            $usedQueue = $queue === "" ? $this->connection->defaultQueue : $queue;
 
             $usedRoutingKey = $routingKey === "" ? $this->connection->defaultQueue : $routingKey;
 
+            $this->connection->channel->queue_bind($usedQueue, $usedExchange, $usedRoutingKey);
             $this->connection->channel->basic_publish($msg, $usedExchange, $usedRoutingKey);
-            return true;
+            return;
         } catch (\Exception $exception) {
             throw new PublishFailed("Failed to publish the message", $exception);
         }
