@@ -6,7 +6,8 @@ namespace MinamqpPhp;
 
 use PhpAmqpLib\Message\AMQPMessage;
 
-final class Consumer{
+final class Consumer
+{
 
     private Connection $connection;
 
@@ -16,17 +17,18 @@ final class Consumer{
     }
 
     /** 
-     * Accepts a callback, with a parameter of type string, that will read the content of the message,
+     * Accepts a callback, with a parameter of type string, that will read the content of the message and returns a bool to specify if the action was successful or not,
      *  a bool to resend the message back to the server and a queueName in case you're not using the default queue.
      * This is a blocking function which means that it will never quit because it keeps waiting for an incoming message from the server, 
      * keep this in mind before calling it!
      */
-    public function read(callable $callback, bool $resendToQueue = false, string $queueName = ""): void{
+    public function read(callable $callback, string $queueName = ""): void
+    {
 
         $usedQueueName = $queueName === "" ? $this->connection->defaultQueue : $queueName;
 
-        $localCallback = function (AMQPMessage $message) use ($callback, $resendToQueue): void{
-            $callback($message->getBody());
+        $localCallback = function (AMQPMessage $message) use ($callback): void {
+            $resendToQueue = !$callback($message->getBody());
             $message->nack($resendToQueue);
         };
 
